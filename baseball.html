@@ -1,0 +1,639 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자야구 게임</title>
+    <meta http-equiv="Expires" content="-1">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <style>
+        body, h1, h2, h3, h4, h5, h6, button {
+            padding: 0;
+            margin: 0;
+            font-family: 'Jua', sans-serif;
+
+        }
+
+        .none {
+            display: none !important;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        
+
+        .con {
+            max-width: 800px;
+            /* height: 100vh; */
+            margin: 0 auto;
+            /* padding-top: 50px; */
+            background-color: #4C73FF;
+            display: flex;
+            justify-content: center;
+        }
+
+        .box {
+
+        }
+
+        .top {
+            position: fixed;
+            max-width: 100%;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 1;
+            background-color: #4C73FF;
+            margin: 0 auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .top_box {
+            display: flex;
+            justify-content: space-between;
+            padding-top: 30px;
+
+        }
+
+        .top_box div {
+            width: 200px;
+            height: 60px;
+            text-align: center;
+        }
+
+        .top_box .result, .top_box .success {
+            background-color: #E06060;
+            color: #fff;
+            line-height: 60px;
+            text-align: center;
+            font-size: 25px;
+        }
+
+        .top_box .hint {
+            line-height: 60px;
+        }
+
+        .top_box .hint:hover {
+            cursor: pointer;
+        }
+
+        .top_box .score {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-align: center;
+            align-items: center;
+        }
+
+        .box  button#again {
+            margin-top: 50px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 50px;
+            width: 200px;
+            background-color: #eeeeee;
+            border-radius: 15px;
+        }
+
+        .top_box .score #remain_txt {
+            color: #fff;
+        }
+
+        .table_th {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+            border-bottom: 1px solid #fff;
+            padding-bottom: 20px;
+        }
+
+        .table_th table th {
+            width: 80px;
+        }
+
+        .input {
+            display: flex;
+            justify-content: center;
+            position: fixed;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 800px;
+            background-color: #4C73FF;
+            padding-bottom: 20px;
+
+        }
+
+        .input input,
+        .input button {
+            width: 200px;
+            height: 40px;
+            /* margin-top: 40px; */
+            text-align: center;
+            font-size: 25px;
+            border: 2px solid #000;
+            margin-left: 20px;
+            margin-right: 20px;
+        }
+
+       
+
+        .input button.btn_check {
+            background-color: #45d385;
+            height: 46px;
+            width: 80px;
+        }
+
+        .input button.btn_again {
+            background-color: #45d385;
+            height: 46px;
+            width: 200px;
+        }
+
+        .list_box_c {
+
+            display: flex;
+            justify-content: center;
+            margin-top: 220px;
+            height: 590px;
+            overflow: auto;
+            padding-top: 60px;
+
+        }
+
+        .list_box_c table td {
+            width: 80px;
+            text-align: center;
+        }
+
+
+        @media screen and (max-width: 500px) {
+
+            body {
+                background-color: #4C73FF;
+
+            }
+
+            .list_box_c {
+                height: 230px;
+            }
+
+            .box .btn_check {
+                height: 54px;
+                width: 80px;
+            }
+
+            .box .btn_again {
+                width: 200px;
+            }
+        }
+
+
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        
+        .start_box {
+            margin: 0 auto;
+            background-color: #4C73FF;
+            text-align: center;
+            height: 100vh;
+            z-index: 2;
+            align-items: center;
+            display: flex;
+            flex-direction: column;
+            max-width: 800px;
+        }
+
+        .start_box h1 {
+            padding: 20px;
+
+        }
+
+        .start_box .info {
+            margin-top: 50px;
+           
+        }
+
+        .start_box .info ul {
+            width: 600px;
+            margin: 0 auto;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .start_box .info ul li {
+            list-style: decimal;
+            
+        }
+
+        .start_box .info ul li p {
+            word-break: keep-all;
+            word-wrap: break-word;
+            
+        }
+
+        .start_box h2 {
+        }
+
+        .start_box h3 {
+            margin-top: 80px;
+        }
+
+        .start_box .btn_start {
+            width: 200px;
+            height: 60px;
+            background-color: #ee5c22;
+            font-size: 20px;
+            box-shadow: 5px 5px 5px ;
+            margin-top: 80px;
+        }
+
+        .start_box .btn_toggle_box {
+            margin-left: auto;
+            margin-right: 20px;
+            margin-top: 20px;
+
+        }
+
+        .start_box .btn_toggle_box button {
+            background-color: #45d385;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 10px;
+            font-weight: bold;
+        }
+
+        @media screen and ( max-width: 500px ) {
+            body {
+                font-size: 14px;
+                
+            }
+            .pc {
+                display: none;
+            }
+
+            .start_box {
+                height: unset;
+            }
+
+            .start_box h1 {
+                font-size: 26px;
+            }
+
+            .start_box .info ul {
+                width: 280px;
+            }
+
+            .start_box .info ul li p {
+            }
+
+            .btn_start {
+                margin-bottom: 50px;
+            }
+
+        }
+
+        @media screen and ( min-width: 500px ) {
+            .m {
+                display: none;
+            }
+        }
+    </style>
+
+    
+
+    <div class="box con">
+       
+        <div class="top">
+            <div class="top_box">
+                <div class="hint">✅ 게임하는 방법
+                </div>
+                <div class="result">❔ ❔ ❔
+                </div>
+                
+                <div class="success none">SUCCESS</div>
+                <div class="score">
+                    <span>남은 경기</span>
+                    <span id="remain_txt">20</span>
+                    
+                </div>
+            </div>
+            <button id='again' onclick="location.reload();">재시작</button>
+            <div class="table_th">
+                <table>
+                    <tr>
+                        <th>no</th>
+                        <th>숫자</th>
+                        <th>결과</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+
+        <div class="list_box_c">
+            <div class="list_box">
+                <table>
+
+                </table>
+            </div>
+        </div>
+
+        <div class="input">
+            <input type="text" placeholder="정답!!" onkeydown="onKeyDown_input();"  onKeyup="this.value=this.value.replace(/[^0-9]/g,'');"
+            autofocus >
+            <button class="btn_again none">다시하기</button>
+            <button class="btn_check" onclick="onKeyDown();">입력</button>
+        </div>
+    </div>
+    
+
+    <div class="start_box none">
+        <div class="btn_toggle_box">
+            <button>닫기</button>
+        </div>
+        <h1 class="pc">🥎 BASEBALL / 숫자 야구 게임 ⚾</h1>
+        <h1 class="m">🥎 BASEBALL 게임 ⚾</h1>
+        <div class="info">
+            <h2>< 숫자 야구 게임 방법 ></h2>
+            <ul>
+                <li><p>베이스볼 게임은 0 ~ 9 까지의 중복되지 않는 랜덤 숫자 3자리를 맞추는 게임입니다.</p>   </li>
+                <li><p>중복되지 않는 숫자 3자리를 입력합니다.</p>   </li>
+                <li><p>일치하는 숫자가 없을 경우, 'OUT' 입니다.</p>   </li>
+                <li><p>같은 자리에 일치하는 숫자가 존재할 경우 '개수 + S(strike)' 입니다.</p>   </li>
+                <li><p>랜덤 숫자에 포함은 되지만 다른 자리에 숫자가 존재할 경우 '개수 + B(ball)' 입니다.</p>   </li>
+                <li><p>20번의 기회 동안 랜덤 숫자 3자리를 맞추는 게임입니다.</p>   </li>
+            </ul>
+            <h3>< 예시 랜덤 숫자 : 430 ></h3>
+            <ul>
+                <li><p>158을 입력할 경우 -> 'OUT' 입니다.</p>   </li>
+                <li><p>143을 입력할 경우 -> '0S 2B' 입니다.</p>   </li>
+                <li><p>438을 입력할 경우 -> '2S 0B' 입니다.</p>   </li>
+            </ul>
+        </div>
+    </div>
+    <script>
+
+
+        var random_number = num();
+
+        
+
+
+        function num() {
+            const ranArr = [];
+            let i = 0;
+
+            while (i < 3) {
+                const rand = Math.floor(Math.random() * 10);
+                if ( i > 0 ) {
+                if (!sameNum(rand)) {
+                        ranArr.push(rand);
+                        i++;    
+                    }
+                       
+                        
+                }
+                
+
+                if ( i == 0 && rand != 0) {
+                    if (!sameNum(rand)) {
+                    ranArr.push(rand);
+                    i++;    
+                }
+            }
+
+            }
+
+            function sameNum(rand) {
+                for (var i = 0; i < ranArr.length; i++) {
+                    if (rand === ranArr[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return ranArr;
+
+
+        }
+
+        const getResult = function (a1, a2) {
+            var i = a1.length;
+            if (i != a2.length) return false;
+         
+            while (i--) {
+              if (a1[i] !== a2[i]) return false;
+            }
+            return true;
+          };
+
+
+
+
+        console.log(random_number);
+
+        const rand_num_arr = [];
+
+
+        var remain = 20;
+       
+
+        function onKeyDown() {
+
+
+
+            var value = $('.input input').val();
+
+
+            
+             // if ( event.keyCode == 13 ) {
+
+                value = value.replace(/[^0-9]/g, "");
+
+                if (value.length > 3) {
+                    alert('숫자를 3자리까지만 입력해주세요.');
+                    return false;
+                }
+
+                if (value.length < 3) {
+                    alert('숫자를 3자리 입력해주세요.');
+                    return false;
+                }
+
+
+                if (value.length < 1) {
+                    alert('숫자를 입력해주세요.');
+                    $('input').val('');
+                    return false;
+                }
+
+                var first = Number(value.substr(0, 1));
+                var second = Number(value.substr(1, 1));
+                var third = Number(value.substr(2, 1));
+
+                const enter_num_arr = [];
+                enter_num_arr.push(first);
+                enter_num_arr.push(second);
+                enter_num_arr.push(third);
+
+                if (first == second || second == third || first == third) {
+                    alert('숫자는 중복되지 않게 입력해주세요.');
+                    return false;
+                }
+
+                console.log(enter_num_arr);
+
+
+                rand_num_arr.push(enter_num_arr);
+
+
+                var strike = 0;
+                var ball = 0;
+                var out = 'OUT';
+                var out_num = 0;
+                var not_out = false;
+
+                for (var a = 0; a < random_number.length; a++) {
+                    if (!random_number.includes(enter_num_arr[a])) {
+                        if (random_number[a] != enter_num_arr[a]) {
+                            out_num++;
+                            if (out_num == 3) {
+                                $('.list_box table').append(
+                                    '<tr><td>' + rand_num_arr.length + '</td>' +
+                                    '<td>' + value + '</td>' +
+                                    '<td>' + 'OUT' + '</td></tr>'
+                                );
+
+                                //alert('out');
+                                //remain--;
+                            }
+
+                            $('input').val('');
+                        }
+                    } else {
+                        if (random_number.includes(enter_num_arr[a])) {
+                            if (random_number[a] === enter_num_arr[a]) {
+                                strike++;
+                                not_out = true;
+                                //alert('stike');
+                                //remain--;
+                                if ( enter_num_arr[0] === 0 ) {
+                                    alert('0은 맨 첫째자리에 올 수 없습니다.');
+                                    return false;
+                                }
+                            }
+
+                        }
+
+                        if (random_number.includes(enter_num_arr[a])) {
+                            if (random_number[a] !== enter_num_arr[a]) {
+                                ball++;
+                                not_out = true;
+                                //alert('ball');
+                                //remain--;
+                                if ( enter_num_arr[0] === 0 ) {
+                                    alert('0은 맨 첫째자리에 올 수 없습니다.');
+                                    return false;
+                                }
+                                
+                            }
+                        }
+
+                    }
+
+
+
+                }
+
+                remain--;
+
+                if (not_out) {
+                    $('.list_box table').append(
+                        '<tr id="' + rand_num_arr.length + '"><td>' + rand_num_arr.length + '</td>' +
+                        '<td>' + value + '</td>' +
+                        '<td>' + strike + 'S ' + ball + 'B' + '</td></tr>'
+                    );
+
+                    /* var position = $('#' + rand_num_arr.length).offset();
+                    $('html, body').animate({scrollTop : position.top}, 1000); */a
+
+
+                    $('.list_box_c').scrollTop($('.list_box_c')[0].scrollHeight);
+
+
+
+                    $('input').val('');
+                    /* const element = document.getElementById('remain_txt');
+                    element.innerHTML
+                        = remain; */
+
+                    
+
+                    if (remain === 0) {
+                        alert('아쉽게도 실패하셨습니다..ㅠㅠ');
+                        $('.input input').addClass('none');
+                        $('.btn_again').removeClass('none');
+                        $('span#remain_txt').text('GAME OVER');
+                        $('.btn_check').addClass('none');
+                        return false;
+                    }
+
+                }
+
+                console.log(rand_num_arr.length + ' : ' + rand_num_arr.length);
+                console.log('remain : ' + remain);
+
+                
+                $('span#remain_txt').text(remain);
+           // }
+
+           if ( getResult(random_number, enter_num_arr) ) {
+            $('.input input').addClass('none');
+            $('.btn_again').removeClass('none');
+            $('span#remain_txt').text('홈 런❗');
+            $('.btn_check').addClass('none');
+            $('.result').addClass('none');
+            $('.success').removeClass('none');
+            $('.success').text(random_number.toString().replace(/,/g, " "));
+            alert('You Win ❗❗')   
+        }
+
+           $('.input input').focus();
+        }
+
+        function onKeyDown_input() {
+            if ( event.keyCode == 13 ) {
+                onKeyDown();
+            }
+        }
+
+        $('.btn_again').click(function () {
+            location.reload();
+        });
+
+        $('.start_box .btn_toggle_box button').click(function(){
+            $('.box').removeClass('none');
+            $('.start_box').addClass('none');
+        })
+
+        $('.box .hint').click(function(){
+            $('.start_box').removeClass('none');
+            $('.box').addClass('none');
+        });
+
+
+    </script>
+    </body>
+
+</html>

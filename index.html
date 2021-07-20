@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BASEBALL GAME</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <style>
+
+        body, h1, h2, h3, h4, h5, h6, button {
+            padding: 0;
+            margin: 0;
+            font-family: 'Jua', sans-serif;
+
+        }
+
+        .none {
+            display: none !important;
+        }
+
+        button:hover {
+            cursor: pointer;
+        }
+
+        
+        .start_box {
+            margin: 0 auto;
+            max-width: 800px;
+            background-color: #4C73FF;
+            text-align: center;
+            height: 100vh;
+        }
+
+        .start_box h1 {
+            padding: 20px;
+        }
+
+        .start_box .info {
+            margin-top: 50px;
+           
+        }
+
+        .start_box .info ul {
+            width: 600px;
+            margin: 0 auto;
+            margin-top: 50px;
+            text-align: left;
+        }
+
+        .start_box .info ul li {
+            list-style: decimal;
+            
+        }
+
+        .start_box .info ul li p {
+            word-break: keep-all;
+            word-wrap: break-word;
+            
+        }
+
+        .start_box h3 {
+            margin-top: 80px;
+        }
+
+        .start_box .btn_start {
+            width: 200px;
+            height: 60px;
+            background-color: #ee5c22;
+            font-size: 20px;
+            box-shadow: 5px 5px 5px ;
+            margin-top: 80px;
+        }
+
+        @media screen and ( max-width: 500px ) {
+            body {
+                font-size: 14px;
+                
+            }
+            .pc {
+                display: none;
+            }
+
+            .start_box {
+                height: unset;
+            }
+
+            .start_box .info ul {
+                width: 280px;
+            }
+
+            .start_box .info ul li p {
+            }
+
+            .btn_start {
+                margin-bottom: 50px;
+            }
+
+        }
+
+        @media screen and ( min-width: 500px ) {
+            .m {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="start_box">
+        <h1 class="pc">🥎 BASEBALL / 숫자 야구 게임 ⚾</h1>
+        <h1 class="m">🥎 BASEBALL 게임 ⚾</h1>
+        <div class="info">
+            <h2>< 숫자 야구 게임 방법 ></h2>
+            <ul>
+                <li><p>베이스볼 게임은 0 ~ 9 까지의 중복되지 않는 랜덤 숫자 3자리를 맞추는 게임입니다.</p>   </li>
+                <li><p>중복되지 않는 숫자 3자리를 입력합니다.</p>   </li>
+                <li><p>일치하는 숫자가 없을 경우, 'OUT' 입니다.</p>   </li>
+                <li><p>같은 자리에 일치하는 숫자가 존재할 경우 '개수 + S(strike)' 입니다.</p>   </li>
+                <li><p>랜덤 숫자에 포함은 되지만 다른 자리에 숫자가 존재할 경우 '개수 + B(ball)' 입니다.</p>   </li>
+                <li><p>20번의 기회동안 랜덤 숫자 3자리를 맞추는 게임입니다.</p>   </li>
+            </ul>
+            <h3>< 예시 랜덤 숫자 : 430 ></h3>
+            <ul>
+                <li><p>158을 입력할 경우 -> 'OUT' 입니다.</p>   </li>
+                <li><p>143을 입력할 경우 -> '0S 2B' 입니다.</p>   </li>
+                <li><p>438을 입력할 경우 -> '2S 0B' 입니다.</p>   </li>
+            </ul>
+        </div>
+
+        <button class="btn_start" onclick='location.href="./baseball.html"'> 게임 시작</button>
+    </div>
+</body>
+</html>

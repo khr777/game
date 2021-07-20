@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>숫자야구 게임</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .none {
+            display: none;
+        }
+
+        .con {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .box {
+            width: 100%;
+            height: 800px;
+            background-color: #4C73FF;
+            display: flex;
+            align-items: center;
+            flex-direction: column;
+            border-radius: 30px;
+        }
+
+        .box .result {
+            height: 60px;
+            margin-top: 10px;
+            display: flex;
+            align-items: center;
+            width: 100%;
+            justify-content: space-between;
+            
+        }
+
+        .box .result div {
+            width: 120px;
+            padding: 15px 20px;
+            color: orange;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        .box .result div:nth-child(2) {
+            text-align: center;
+            font-size: 20px;
+            background-color: #E06060;
+            position: relative;
+        }
+
+
+        .input {
+            display: flex;
+            justify-content: center;
+        }
+
+        .input input {
+            width: 200px;
+            height: 40px;
+            margin-top: 40px;
+            text-align: center;
+            font-size: 25px;
+            border: 2px solid #000;
+        }
+
+        .box .my_list {
+            border-top: 1px solid #fff;
+            margin-top: 11px;
+            width: 100%;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+
+        }
+
+        .box .my_list table {
+            margin-top: 18px;
+        }
+
+        .box .my_list table,
+        tr,
+        th,
+        td {
+            border: 1px solid #fff;
+            border-collapse: collapse;
+            padding: 5px 20px;
+            font-weight: bold;
+        }
+
+        @media screen and ( max-width: 450px) {
+            .m {
+                display: block;
+            }
+            .pc {
+                display: none;
+            }
+            .box .result {
+                position: fixed;
+                justify-content: center;
+            }
+            .box .result div {
+                width: 130px;
+            }
+
+            .box .result div:nth-child(1) {
+                display: none;
+
+            }
+
+            .box .result div:nth-child(3) {
+                background-color: #fff;
+                height: 27.5px;
+            }
+
+
+            .box .my_list {
+                margin-top: 82px;
+            }
+
+            
+        }
+
+        @media screen and ( min-width: 450px) {
+            .m {
+                display: none;
+            }
+            .pc {
+                display: block;
+            }
+        }
+
+    </style>
+</head>
+
+<body>
+    <div class="con">
+        <div class="box">
+            <div class="result">
+                <div></div>
+                <div>❓ ❓ ❓</div>
+                <div >남은 횟수 : <span id="remain_txt">20</span></div>
+            </div>
+            <div class="my_list">
+                <table>
+                    <tr>
+                        <th>no</th>
+                        <th>숫자</th>
+                        <th>결과</th>
+                    </tr>
+                </table>
+            </div>
+        </div>
+        <div class="input">
+            <input type="text" placeholder="정답!!" onKeyDown="onKeyDown();">
+        </div>
+    </div>
+    <script>
+
+
+        var random_number = num();
+
+        var remain = 20;
+
+
+        function num() {
+            const ranArr = [];
+            let i = 0;
+
+            while (i < 3) {
+                const rand = Math.floor(Math.random() * 10);
+                if (!sameNum(rand)) {
+                    ranArr.push(rand);
+                    i++;
+                }
+
+            }
+
+            function sameNum(rand) {
+                for (var i = 0; i < ranArr.length; i++) {
+                    if (rand === ranArr[i]) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+            return ranArr;
+        }
+
+
+
+
+        console.log(random_number);
+
+        const rand_num_arr = [];
+
+        function onKeyDown() {
+            if (event.keyCode == 13) {
+                var value = $('.input input').val();
+
+                value = value.replace(/[^0-9]/g, "");
+
+                if (value.length > 3) {
+                    alert('숫자를 3자리까지만 입력해주세요.');
+                    return false;
+                } 
+
+                if (value.length < 3) {
+                    alert('숫자를 3자리 입력해주세요.');
+                    return false;
+                } 
+
+
+                if (value.length < 1) {
+                    alert('숫자를 입력해주세요.');
+                    $('input').val('');
+                    return false;
+                }
+
+                var first = Number(value.substr(0, 1));
+                var second = Number(value.substr(1, 1));
+                var third = Number(value.substr(2, 1));
+
+                const enter_num_arr = [];
+                enter_num_arr.push(first);
+                enter_num_arr.push(second);
+                enter_num_arr.push(third);
+
+                if (first == second || second == third || first == third) {
+                    alert('숫자는 중복되지 않게 입력해주세요.');
+                    return false;
+                }
+
+                console.log(enter_num_arr);
+
+
+                rand_num_arr.push(enter_num_arr);
+
+
+                var strike = 0;
+                var ball = 0;
+                var out = 'OUT';
+                var out_num = 0;
+                var not_out = false;
+
+                for (var a = 0; a < random_number.length; a++) {
+                    if (!random_number.includes(enter_num_arr[a])) {
+                        if (random_number[a] != enter_num_arr[a]) {
+                            out_num++;
+                            if (out_num == 3) {
+                                $('.box .my_list table').append(
+                                    '<tr><td>' + rand_num_arr.length + '</td>' +
+                                    '<td>' + value + '</td>' +
+                                    '<td>' + 'OUT' + '</td></tr>'
+                                );
+
+                                remain--;
+                            }
+                        }
+                    } else {
+                        if (random_number.includes(enter_num_arr[a])) {
+                            if (random_number[a] == enter_num_arr[a]) {
+                                strike++;
+                                not_out = true;
+                                remain--;
+                            }
+
+                        }
+
+                        if (random_number.includes(enter_num_arr[a])) {
+                            if (random_number[a] != enter_num_arr[a]) {
+                                ball++;
+                                not_out = true;
+                                remain--;
+                            }
+
+                        }
+                    }
+
+
+
+                }
+
+                if (not_out) {
+                    $('.box .my_list table').append(
+                        '<tr><td>' + rand_num_arr.length + '</td>' +
+                        '<td>' + value + '</td>' +
+                        '<td>' + strike + 'S ' + ball + 'B' + '</td></tr>'
+                    );
+
+
+                }
+
+                $('input').val('');
+                const element = document.getElementById('remain_txt');
+                element.innerHTML 
+                  = remain;
+
+                  if ( remain == 0 ) {
+                      alert('아쉽게도 실패하셨습니다..ㅠㅠ');
+
+                  }
+
+            }
+        }
+
+
+
+    </script>
+</body>
+
+</html>
